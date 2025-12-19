@@ -4,47 +4,34 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.demo.domain.User
+import com.demo.mvvm.ui.features.login.viewModel.PostsViewModel
 import com.demo.mvvm.ui.theme.MVVMDemoTheme
+import com.demo.mvvm.ui.utils.CustomNavController
+import dagger.hilt.android.AndroidEntryPoint
 
-class LauncherActivityV2 : ComponentActivity() {
+@AndroidEntryPoint
+class HomeActivity : ComponentActivity() {
+
+    val mPostsViewModel: PostsViewModel by viewModels<PostsViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MVVMDemoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    CustomNavController(
+                        this,
+                        mPostsViewModel,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    var user = User()
-    user.email = "dummy@gmail.com"
-    Text(
-        text = "Hello $name! ${user.email}",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MVVMDemoTheme {
-        Greeting("Android")
     }
 }

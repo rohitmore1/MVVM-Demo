@@ -23,3 +23,4 @@ rootProject.name = "MVVM Demo"
 include(":ui")
 include(":domain")
 include(":data")
+include(":api")
